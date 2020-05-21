@@ -31,5 +31,6 @@ DATABASES = {
 }
 
 KN_LOGGING_URL_PATTERNS = [
-    'success_func_view'
+    'success_func_view',
+    'error_func_view',
 ]

@@ -24,7 +24,7 @@ class KnLogging(MiddlewareMixin):
         url_name = resolver.view_name
 
         patterns = app_settings.KN_LOGGING_URL_PATTERNS
-        pdb.set_trace()
+        # pdb.set_trace()
         check_url_name = f'{namespace}:{url_name}' if namespace else url_name
         if check_url_name in patterns:
             return True
@@ -66,10 +66,10 @@ class KnLogging(MiddlewareMixin):
 
             if response.status_code in [200, 301, 302]:
                 logger.info(f'{request.path} took {response_duration} seconds, response: {response.status_code}')
-            elif response.status_code == 500:
-                traceback_ = traceback.format_exc()
-                logger.error(f'Internal server error Path f{response.path}, Trace{traceback_}', exc_info=sys.exc_info())
+            # elif response.status_code == 500:
 
         return response
 
-    # def log(self, data):
+    def process_exception(self, request, exception):
+        traceback_ = traceback.format_exc()
+        logger.error(f'Internal server error Path f{request.path}, Trace{traceback_}', exc_info=sys.exc_info())
