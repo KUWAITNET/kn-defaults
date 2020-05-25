@@ -10,6 +10,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'kn_defaults.logging',
     "tests",
 ]
 
@@ -34,3 +35,26 @@ KN_LOGGING_URL_PATTERNS = [
     'success_func_view',
     'error_func_view',
 ]
+from kn_defaults.logging.defaults import KN_FORMATTER
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose_kn': {
+            'format': KN_FORMATTER,
+        },
+    },
+    'handlers': {
+        'kn_default_handler': {
+            'formatter': 'verbose_kn'
+        },
+    },
+    'loggers': {
+        'kn_defaults': {
+            'handlers': ['kn_default_handler'],
+            'level': 'INFO',
+        }
+    }
+}
+

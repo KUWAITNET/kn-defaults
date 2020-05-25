@@ -7,7 +7,7 @@ class KnDefault(apps.AppConfig):
 
     def ready(self):
         super().ready()
-        # todo call checks
+        from . import checks
 
 
 
