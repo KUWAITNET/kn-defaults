@@ -1,6 +1,6 @@
 # kn-defaults
 
-###Vision:
+### Vision:
 
 This project shall contains 
 
@@ -9,7 +9,7 @@ This project shall contains
 
 
 
-###Usage:
+### Usage:
 
 * install `pip install -e git+git@github.com:KuwaitNET/kn-defaults.git#egg=django-kn-defaults`
 * Add `kn_defaults.logging` to INSTALLED_APPS
@@ -17,7 +17,7 @@ This project shall contains
 * Add `kn_defaults` to `SETTINGS.LOGGING`
 * Mark your url names to be logged by the setting `KN_LOGGING_URL_PATTERNS`
 
-###Logging Adjustments:
+### Logging Adjustments:
 
 Because kn_defaults.logging logs many extra information around the log message itself, 
 we need to add a formatter to the handler that is assigned to `kn_defaults` logger.
@@ -50,7 +50,7 @@ LOGGING = {
 
 ```
 
-###Settings:
+### Settings:
 
 KN_LOGGING_URL_PATTERNS: a list of the url names to be logged by  the middleware. 
 This list can accept a namespace url with an `*` to denote to log all urls under that namespace.
@@ -63,7 +63,7 @@ KN_LOGGING_URL_PATTERNS = [
 
 ```
 
-###What are the information being stored with the logging
+### What are the information being stored with the logging
 
 1. request_id : a unique if of the request to help traceback any logs accosiated with that specific request
 2. method: GET/POST/ etc..
