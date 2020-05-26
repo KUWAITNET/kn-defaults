@@ -35,29 +35,9 @@ KN_LOGGING_URL_PATTERNS = [
     'success_func_view',
     'error_func_view',
 ]
-from kn_defaults.logging.defaults import KN_FORMATTER
+from kn_defaults.logging.defaults import BASE_LOGGING
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose_kn': {
-            'format': KN_FORMATTER,
-
-        },
-    },
-    'handlers': {
-        'kn_default_handler': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose_kn'
-        },
-    },
-    'loggers': {
-        'kn_defaults': {
-            'handlers': ['kn_default_handler'],
-            'level': 'INFO',
-        }
-    }
-}
+BASE_LOGGING.update({})
+LOGGING = BASE_LOGGING
 
 RAVEN_CONFIG = {'dsn': ''}

@@ -9,46 +9,32 @@ This project shall contains
 
 
 
+### Installation:
+
+You can install via `pip install -e git+git@github.com:KuwaitNET/kn-defaults.git#egg=django-kn-defaults`
+
 ### Usage:
 
-* install `pip install -e git+git@github.com:KuwaitNET/kn-defaults.git#egg=django-kn-defaults`
 * Add `kn_defaults.logging` to INSTALLED_APPS
 * Add `'kn_defaults.logging.middlewares.KnLogging'` to your `MIDDLEWARE`
-* Add `kn_defaults` to `SETTINGS.LOGGING`
+* Adjust the logging configurations.
 * Mark your url names to be logged by the setting `KN_LOGGING_URL_PATTERNS`
 
 ### Logging Adjustments:
 
-Because kn_defaults.logging logs many extra information around the log message itself, 
-we need to add a formatter to the handler that is assigned to `kn_defaults` logger.
-
-Below is a _minimalist_ sample that you can integrate with your already defined logging.
+You can do that by simply integrating the kn BASE_LOGGING dict with your project.
 
 ```python
-from kn_defaults.logging.defaults import KN_FORMATTER
-# the formatter format is rather long, it's in KN_FORMATTER, you can take a look at it.
+from kn_defaults.logging.defaults import BASE_LOGGING
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose_kn': {
-            'format': KN_FORMATTER,
-        },
-    },
-    'handlers': {
-        'kn_default_handler': {
-            'formatter': 'verbose_kn'
-        },
-    },
-    'loggers': {
-        'kn_defaults': {
-            'handlers': ['kn_default_handler'],
-        }
-    }
-}
+BASE_LOGGING.update({
+        # Your extra logging configurations goes here
+        })
 
+LOGGING = BASE_LOGGING
 ```
+If you have a logging config already, you can merge it with BASE_LOGGING by hand.
+Check `kn_defaults.logging.defaults` for information
 
 ### Settings:
 
