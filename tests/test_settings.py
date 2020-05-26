@@ -9,7 +9,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'raven.contrib.django.raven_compat',
     'kn_defaults.logging',
     "tests",
 ]
@@ -43,10 +43,12 @@ LOGGING = {
     'formatters': {
         'verbose_kn': {
             'format': KN_FORMATTER,
+
         },
     },
     'handlers': {
         'kn_default_handler': {
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose_kn'
         },
     },
@@ -58,3 +60,4 @@ LOGGING = {
     }
 }
 
+RAVEN_CONFIG = {'dsn': ''}

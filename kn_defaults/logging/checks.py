@@ -14,3 +14,27 @@ def check_logging_settings(app_configs=None, **kwargs):
                             obj='settings',
                             id='kn_defaults.E001', ))
     return errors
+
+
+@register()
+def check_raven(app_configs, **kwargs):
+    errors = []
+    if 'raven.contrib.django.raven_compat' not in settings.INSTALLED_APPS and not settings.DEBUG:
+        errors.append(
+            Error('`raven.contrib.django.raven_compat` is missing from INSTALLED_APPS',
+                  obj='settings',
+                  id='kn_defaults.E002',
+                  )
+        )
+
+    raven_config = getattr(settings, 'RAVEN_CONFIG', {})
+    if not raven_config:
+        errors.append(
+            Error('`RAVEN_CONFIG` is missing from settings',
+                  hint='Add `RAVEN_CONFIG={"dsn":"<DSN HERE>"}` to relevant settings file',
+                  obj='settings',
+                  id='kn_defaults.E003',
+                  )
+        )
+
+    return errors
