@@ -10,7 +10,6 @@ import logging
 
 logger = logging.getLogger('kn_defaults')
 
-CLEANSED_SUBSTITUTE = '********************'
 
 
 class KnLogging(MiddlewareMixin):
@@ -69,47 +68,26 @@ class KnLogging(MiddlewareMixin):
         return response
 
     def get_data(self, request, response=None, exception=None):
-        status_code = response.status_code if response else '500'
-        content = response.content if response else ''
+        from .utils import get_data
+        data = get_data(request, exception)
+        data['response_duration'] = time.time() - self.start
 
-        data = dict(
-            request_id=request.kn_default_log_id,
-            method=request.method,
-            path=request.path[:255],
-            ip=request.META.get('REMOTE_ADDR', ''),
-            user=request.user if request.user.is_authenticated else None,
-            status_code=status_code,
-            outbound_payload=content,
-            response_duration=time.time() - self.start,
-            post_parameters=self.get_post_parameters(request, request.method)
-        )
+        data['status_code'] = response.status_code if response else '500'
+        data['content'] = response.content if response else ''
+
+        # data = dict(
+        #     request_id=request.kn_default_log_id,
+        #     method=request.method,
+        #     path=request.path[:255],
+        #     ip=request.META.get('REMOTE_ADDR', ''),
+        #     user=request.user if request.user.is_authenticated else None,
+        #     status_code=status_code,
+        #     outbound_payload=content,
+        #     post_parameters=self.get_post_parameters(request, request.method)
+        # )
         return data
 
-    def get_post_parameters(self, request, method='POST'):
-        """
-        Copy of `django/views/debug.py SafeExceptionReporterFilter.get_post_parameters
-        Replace the values of POST parameters marked as sensitive with
-        stars (*********).
-        """
-        if request is None:
-            return {}
-        else:
-            sensitive_post_parameters = getattr(request, 'sensitive_post_parameters', [])
-            cleansed = getattr(request, method).copy()
-            if sensitive_post_parameters:
-                if sensitive_post_parameters == '__ALL__':
-                    # Cleanse all parameters.
-                    for k in cleansed:
-                        cleansed[k] = CLEANSED_SUBSTITUTE
-                    return cleansed
-                else:
-                    # Cleanse only the specified parameters.
-                    for param in sensitive_post_parameters:
-                        if param in cleansed:
-                            cleansed[param] = CLEANSED_SUBSTITUTE
-                    return cleansed
-            else:
-                return cleansed
+
 
     def process_exception(self, request, exception):
         data = self.get_data(request, exception=exception)
