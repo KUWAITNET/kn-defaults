@@ -82,3 +82,12 @@ log(level=10, msg='Message here')
 The helper logging is ready for use out of the box.
 It uses a handler called 'default', which logs all to '<CUR_DIR>/log.log'.
 The log helper function also logs the local variables in the calling function.
+
+For level names here is a map.
+```python
+CRITICAL = 50
+ERROR = 40
+WARNING = 30
+INFO = 20
+DEBUG = 10
+```
