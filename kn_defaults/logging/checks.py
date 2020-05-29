@@ -38,3 +38,14 @@ def check_raven(app_configs, **kwargs):
         )
 
     return errors
+
+
+def function2():
+    import traceback
+
+
+
+def function1():
+    a = 1
+    b = 2
+    function2()
