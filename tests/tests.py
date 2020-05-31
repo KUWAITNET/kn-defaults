@@ -5,7 +5,7 @@ import logging
 
 from unittest.case import _AssertLogsContext, _BaseTestCaseContext, _CapturingHandler
 
-from kn_defaults.logging.defaults import KN_FORMATTER
+from kn_defaults.logging.defaults import KN_FORMATTER, logging_decorator, FUNCTION_LOGGER_FORMATTER
 
 _AssertLogsContext.LOGGING_FORMAT = KN_FORMATTER
 
@@ -118,6 +118,21 @@ class TestLogging(KNLoggingTestCase):
         self.assertIn('long-variable-content-for-testing-var-a', cm.output[0])
         self.assertIn('long-variable-content-for-testing-var-b', cm.output[0])
         self.assertIn('sample_dict', cm.output[0])
+
+    def test_logging_decorator_minimal(self):
+        from kn_defaults.logging.defaults import decorator_function_with_arguments
+        @logging_decorator
+        def function_to_call(*args, **kwargs):
+            return 'function_to_call_return_values'
+
+        # formatter = '{levelname}:{name} {message}'
+        # formatter = '{levelname}:{message} - args={args} kwargs={kwargs} return={return_value} '
+        with self.assertLogs('kn_function_logger', 'DEBUG', FUNCTION_LOGGER_FORMATTER, '{') as cm:
+            function_to_call('hello', from_the_other_side=True)
+
+        self.assertIn('function_to_call_return_values', cm.output[0])
+        self.assertIn('from_the_other_side', cm.output[0])
+        self.assertIn('hello', cm.output[0])
 
 
 @override_settings(LOGGING={})
