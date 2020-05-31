@@ -120,7 +120,7 @@ class TestLogging(KNLoggingTestCase):
         self.assertIn('sample_dict', cm.output[0])
 
     def test_logging_decorator_minimal(self):
-        from kn_defaults.logging.defaults import decorator_function_with_arguments
+
         @logging_decorator
         def function_to_call(*args, **kwargs):
             return 'function_to_call_return_values'

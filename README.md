@@ -91,3 +91,14 @@ WARNING = 30
 INFO = 20
 DEBUG = 10
 ```
+
+
+#### function decorator Logging Helper:
+```python
+from kn_defaults.logging.defaults import logging_decorator
+
+@logging_decorator(level=10, msg='')
+def function(arg_1=True, *args, **kwargs):
+    pass
+
+```
