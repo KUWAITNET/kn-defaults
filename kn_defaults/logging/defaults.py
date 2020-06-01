@@ -7,7 +7,8 @@ logger = logging.getLogger('default')
 KN_FORMATTER = "%(levelname)s:%(name)s; " \
                "REQ_id:%(request_id)s; %(message)s; path=%(path)s; method=%(method)s;ip=%(ip)s; " \
                "status_code:%(status_code)%; response_duration:%(response_duration)s; " \
-               "post_parameters: %(post_parameters)s; outbound:%(outbound_payload)s"
+               "post_parameters: %(post_parameters)s; outbound:%(outbound_payload)s; META: %(meta)s"
+
 FUNCTION_LOGGER_FORMATTER = '{levelname}:{message} - args={func_args} kwargs={func_kwargs} return={func_return_value} '
 BASE_LOGGING = {
     'version': 1,
@@ -52,10 +53,10 @@ BASE_LOGGING = {
             'handlers': ['kn_default_handler'],
             'level': 'INFO',
         },
-        'default': {
-            'handlers': ['file_log'],
-            'level': 'DEBUG',
-        },
+            'default': {
+                'handlers': ['file_log'],
+                'level': 'DEBUG',
+            },
         'kn_function_logger': {
             'handlers': ['file_log'],
             'level': 'DEBUG',

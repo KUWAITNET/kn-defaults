@@ -86,6 +86,7 @@ class TestLogging(KNLoggingTestCase):
         with self.assertLogs('kn_defaults', 'INFO') as cm:
             self.client.get(reverse('success_func_view'))
         self.assertIn('took', cm.output[0])
+        self.assertIn('META', cm.output[0])
 
     def test_logging_post_data_sensitive_parameters(self):
         with self.assertLogs('kn_defaults', 'INFO') as cm:

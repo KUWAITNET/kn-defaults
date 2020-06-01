@@ -81,7 +81,8 @@ class KnLogging(MiddlewareMixin):
             status_code=status_code,
             outbound_payload=content,
             response_duration=time.time() - self.start,
-            post_parameters=self.get_post_parameters(request, request.method)
+            post_parameters=self.get_post_parameters(request, request.method),
+            meta=request.META
         )
         return data
 
