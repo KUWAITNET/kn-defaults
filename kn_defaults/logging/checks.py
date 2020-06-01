@@ -5,6 +5,9 @@ from django.core.checks import Error, register
 @register()
 def check_logging_settings(app_configs=None, **kwargs):
     errors = []
+    if settings.LOGGING_CONFIG is None:
+        errors.append(Warning('LOGGING_CONFIG is set to None which disable logging all together !!'))
+
     logging_dict = settings.LOGGING
     loggers = logging_dict.get('loggers', {})
     kn_logging = loggers.get('kn_defaults', False)
@@ -38,14 +41,3 @@ def check_raven(app_configs, **kwargs):
         )
 
     return errors
-
-
-def function2():
-    import traceback
-
-
-
-def function1():
-    a = 1
-    b = 2
-    function2()
