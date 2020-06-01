@@ -102,3 +102,12 @@ def function(arg_1=True, *args, **kwargs):
     pass
 
 ```
+
+
+
+## Helpers
+
+1. `cms_plugin_change_admin_log` logs django-cms plugins addition/ update and delete to the regular admin log.
+   In case of a change action, it logs the changed fields and their values before and after.
+   It's automatically activated if 'cms' is in INSTALLED_APPS unless disabled by the setting `DISABLE_CMS_PLUGIN_CHANGE_ADMIN_LOG`
+   
