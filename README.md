@@ -111,3 +111,10 @@ def function(arg_1=True, *args, **kwargs):
    In case of a change action, it logs the changed fields and their values before and after.
    It's automatically activated if 'cms' is in INSTALLED_APPS unless disabled by the setting `DISABLE_CMS_PLUGIN_CHANGE_ADMIN_LOG`
    
+
+
+
+### Creating a release
+
+The package version is controlled by kn_defaults.__init__.__version__ .
+and preparing the sdist is by `python setup.py sdist`
