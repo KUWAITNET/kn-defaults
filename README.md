@@ -59,7 +59,7 @@ KN_LOGGING_URL_PATTERNS = [
 
 ### The information being stored with the middleware logging
 
-1. request_id : a unique if of the request to help traceback any logs accosiated with that specific request
+1. request_id : a unique if of the request to help traceback any logs associated with that specific request
 2. method: GET/POST/ etc..
 3. path: the request.path (ie url) which originated the log
 4. ip
@@ -103,7 +103,11 @@ def function(arg_1=True, *args, **kwargs):
 
 ```
 
+#### Settings:
 
+`KN_LOG_FILE_SIZE`  Control the log file size. Defaults to 5 MB.
+
+---
 
 ## Helpers
 

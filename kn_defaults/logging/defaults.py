@@ -1,6 +1,7 @@
 from functools import wraps
 import logging
 import os
+from .app_settings import KN_LOG_FILE_SIZE
 
 logger = logging.getLogger('default')
 
@@ -14,7 +15,7 @@ BASE_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose_kn': {
+        'verbose_middleware': {
             'format': KN_FORMATTER,
         },
         'verbose_project': {
@@ -29,13 +30,21 @@ BASE_LOGGING = {
     'handlers': {
         'kn_default_handler': {
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose_project'
+            'formatter': 'verbose_middleware'
+        },
+        'middleware_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(os.getcwd(), 'log.log'),
+            'maxBytes': KN_LOG_FILE_SIZE,
+            'backupCount': 3,
+            'formatter': 'verbose_middleware',
         },
         'file_log': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(os.getcwd(), 'log.log'),
-            'maxBytes': 1024 * 1024,
+            'maxBytes': KN_LOG_FILE_SIZE,
             'backupCount': 3,
             'formatter': 'verbose_project',
         },
@@ -43,20 +52,20 @@ BASE_LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(os.getcwd(), 'log.log'),
-            'maxBytes': 1024 * 1024,
+            'maxBytes': KN_LOG_FILE_SIZE,
             'backupCount': 3,
             'formatter': 'verbose_functions',
         },
     },
     'loggers': {
-        'kn_defaults': {
-            'handlers': ['kn_default_handler'],
+        'kn_middleware_logger': {
+            'handlers': ['middleware_handler'],
             'level': 'INFO',
         },
-            'default': {
-                'handlers': ['file_log'],
-                'level': 'DEBUG',
-            },
+        'default': {
+            'handlers': ['file_log'],
+            'level': 'DEBUG',
+        },
         'kn_function_logger': {
             'handlers': ['file_log'],
             'level': 'DEBUG',
@@ -91,7 +100,6 @@ def logging_decorator(func, *, level=10, msg=''):
     def function_wrapper(*args, **kwargs):
         logger = logging.getLogger('kn_function_logger')
         message = msg or func.__name__
-        # print("Hi, " + func.__name__ + " returns:")
 
         return_value = func(*args, **kwargs)
         logger.log(level, message, extra={'func_args': args, 'func_kwargs': kwargs, 'func_return_value': return_value})

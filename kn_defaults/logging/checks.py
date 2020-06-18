@@ -10,7 +10,7 @@ def check_logging_settings(app_configs=None, **kwargs):
 
     logging_dict = settings.LOGGING
     loggers = logging_dict.get('loggers', {})
-    kn_logging = loggers.get('kn_defaults', False)
+    kn_logging = loggers.get('kn_middleware_logger', False)
     if not kn_logging:
         errors.append(Error('`kn_defaults` is not added to LOGGING.loggers',
                             hint="add kn_defaults to LOGGING.loggers objects",

@@ -83,20 +83,20 @@ class KNLoggingTestCase(TestCase):
 class TestLogging(KNLoggingTestCase):
 
     def test_success_func_view(self):
-        with self.assertLogs('kn_defaults', 'INFO') as cm:
+        with self.assertLogs('kn_middleware_logger', 'INFO') as cm:
             self.client.get(reverse('success_func_view'))
         self.assertIn('took', cm.output[0])
         self.assertIn('META', cm.output[0])
 
     def test_logging_post_data_sensitive_parameters(self):
-        with self.assertLogs('kn_defaults', 'INFO') as cm:
+        with self.assertLogs('kn_middleware_logger', 'INFO') as cm:
             self.client.post(reverse('success_func_view'), data={'username': '<username>', 'password': 'secret'})
         self.assertIn('username', cm.output[0])
         self.assertNotIn('secret', cm.output[0])
 
     def test_error_func_view(self):
 
-        with self.assertLogs('kn_defaults', 'ERROR') as cm:
+        with self.assertLogs('kn_middleware_logger', 'ERROR') as cm:
             try:
                 self.client.get(reverse('error_func_view'), )
             except:

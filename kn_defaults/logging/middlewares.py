@@ -8,7 +8,7 @@ from django.utils.deprecation import MiddlewareMixin
 import uuid
 import logging
 
-logger = logging.getLogger('kn_defaults')
+logger = logging.getLogger('kn_middleware_logger')
 
 CLEANSED_SUBSTITUTE = '********************'
 
