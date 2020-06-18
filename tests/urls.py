@@ -16,5 +16,4 @@ def error_func_view(request):
 urlpatterns = [
     path('success_func_view', success_func_view, name='success_func_view'),
     path('error_func_view', error_func_view, name='error_func_view'),
-    # path('', ra_admin_site.urls),
 ]

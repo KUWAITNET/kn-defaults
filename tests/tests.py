@@ -136,9 +136,16 @@ class TestLogging(KNLoggingTestCase):
         self.assertIn('hello', cm.output[0])
 
 
-@override_settings(LOGGING={})
 class TestChecks(TestCase):
+
+    @override_settings(LOGGING={})
     def test_adding_kn_defaults_logging(self):
         from kn_defaults.logging.checks import check_logging_settings
         errors = check_logging_settings()
         self.assertIsNotNone(errors, 'Check settings is not Ok')
+
+    @override_settings(ROOT_URLCONF='tests.urls_w_default_admin')
+    def test_admin(self):
+        from kn_defaults.logging.checks import check_admin_url
+        exception = check_admin_url(None)
+        self.assertTrue(exception)

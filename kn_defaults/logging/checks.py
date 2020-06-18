@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.core.checks import Error, register
+from django.core.checks import Error, register, Warning
+from django.urls import reverse, NoReverseMatch
 
 
 @register()
@@ -40,4 +41,27 @@ def check_raven(app_configs, **kwargs):
                   )
         )
 
+    return errors
+
+
+@register()
+def check_admin_url(app_configs, **kwargs):
+    errors = []
+    try:
+        admin_url = reverse('admin:index')
+    except NoReverseMatch:
+        # no default admin in url, exiting
+        return errors
+
+    error_class = Warning if settings.DEBUG else Error
+    url_parts = admin_url.split('/')
+    if 'admin' in url_parts:
+        errors.append(
+            error_class(
+                "it’s not recommended to have the admin url as `/admin/` and it will not work when DEBUG = False. "
+                "Please change it to a different url or ask your project manager what url should be used.",
+                hint='Change the admin url',
+                obj='settings',
+                id='kn_defaults.E003')
+        )
     return errors
