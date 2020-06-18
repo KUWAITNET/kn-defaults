@@ -7,8 +7,16 @@ def cms_plugin_change_admin_log(sender, operation, request, language, token, ori
     data = ''
 
     from django.contrib.admin.models import LogEntry
-    placeholder = kwargs['placeholder']
+    if operation == 'paste_plugin':
+        placeholder = kwargs.get('target_placeholder', False)
+    else:
+        placeholder = kwargs.get('placeholder', False)
+
+    if not placeholder:
+        return
+
     pk = placeholder.pk
+
     if 'change' in operation:
         action_flag = '2'
         data = {}
