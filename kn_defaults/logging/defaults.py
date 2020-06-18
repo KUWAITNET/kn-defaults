@@ -19,7 +19,7 @@ BASE_LOGGING = {
             'format': KN_FORMATTER,
         },
         'verbose_project': {
-            'format': '{levelname}:{message} - LocalVars={vars} ',
+            'format': '{levelname}:{name}:{message} - LocalVars={vars} ',
             'style': '{',
         },
         'verbose_functions': {
