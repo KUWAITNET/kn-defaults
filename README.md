@@ -116,8 +116,13 @@ This decorator logs the function *args & **kwargs and the function return value
 
 #### Settings:
 
-`KN_LOG_FILE_SIZE`  Control the log file size. Defaults to 5 MB.
+* `KN_LOG_FILE_SIZE`  Control the log file size. Defaults to 5 MB.
 
+* `KN_HANDLER_CLASS` Controls the logging handler class, defaults to 'logging.handlers.RotatingFileHandler'
+ 
+* `KN_LOG_FILE_PATH` Controls where the log file would be stored. Defaults to `os.path.join(os.getcwd(), 'log.log'))`
+
+* `KN_LOG_BACKUP_COUNT` Controls the backup count for the default 'RotatingFileHandler'. Defaults to 3 
 
 -------------------------------------
 ## 2. Checks

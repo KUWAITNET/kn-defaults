@@ -1,0 +1,10 @@
+# Changelog
+All notable changes to this project are/will be documented in this file.
+
+
+## [0.2.4]
+#Added
+- Added CHANGELOG (This file)   
+- Added settings KN_HANDLER_CLASS, KN_LOG_FILE_PATH, KN_LOG_BACKUP_COUNT
+
+

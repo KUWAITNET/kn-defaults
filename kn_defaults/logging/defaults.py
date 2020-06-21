@@ -1,7 +1,7 @@
 from functools import wraps
 import logging
 import os
-from .app_settings import KN_LOG_FILE_SIZE
+from .app_settings import KN_LOG_FILE_SIZE, KN_HANDLER_CLASS, KN_LOG_FILE_PATH, KN_LOG_BACKUP_COUNT
 
 logger = logging.getLogger('default')
 
@@ -34,26 +34,26 @@ BASE_LOGGING = {
         },
         'middleware_handler': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.getcwd(), 'log.log'),
+            'class': str(KN_HANDLER_CLASS),
+            'filename': str(KN_LOG_FILE_PATH),
             'maxBytes': KN_LOG_FILE_SIZE,
-            'backupCount': 3,
+            'backupCount': KN_LOG_BACKUP_COUNT,
             'formatter': 'verbose_middleware',
         },
         'file_log': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.getcwd(), 'log.log'),
+            'class': str(KN_HANDLER_CLASS),
+            'filename': str(KN_LOG_FILE_PATH),
             'maxBytes': KN_LOG_FILE_SIZE,
-            'backupCount': 3,
+            'backupCount': KN_LOG_BACKUP_COUNT,
             'formatter': 'verbose_project',
         },
         'functions_log': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.getcwd(), 'log.log'),
+            'class': str(KN_HANDLER_CLASS),
+            'filename': str(KN_LOG_FILE_PATH),
             'maxBytes': KN_LOG_FILE_SIZE,
-            'backupCount': 3,
+            'backupCount': KN_LOG_BACKUP_COUNT,
             'formatter': 'verbose_functions',
         },
     },
