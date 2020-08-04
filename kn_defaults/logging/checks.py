@@ -2,6 +2,8 @@ from django.conf import settings
 from django.core.checks import Error, register, Warning
 from django.urls import reverse, NoReverseMatch
 
+from . import app_settings
+
 
 @register()
 def check_logging_settings(app_configs=None, **kwargs):
@@ -64,4 +66,35 @@ def check_admin_url(app_configs, **kwargs):
                 obj='settings',
                 id='kn_defaults.E003')
         )
+    return errors
+
+
+@register()
+def check_apm(app_configs, **kwargs):
+    errors = []
+    # INSTALLATION_NAME = env.list('DJANGO_ALLOWED_HOSTS')[0].replace('.', '-')
+    if app_settings.KN_PRODUCTION:
+        # check that APM is enabled
+        if not getattr(settings, 'ENABLE_APM', False):
+            errors.append(Warning('APM is not enabled for this project !!'))
+        else:
+            if 'elasticapm.contrib.django' not in settings.INSTALLED_APPS:
+                errors.append(Error('Please Add APM TO INSTALLED APPS',
+                                    hint="INSTALLED_APPS.append('elasticapm.contrib.django')"))
+            if 'elasticapm.contrib.django.middleware.TracingMiddleware' not in settings.MIDDLEWARE:
+                errors.append(Error('Please Add APM TO MIDDLEWARE',
+                                    hint='MIDDLEWARE.insert(0, "elasticapm.contrib.django.middleware.TracingMiddleware")'))
+            ELASTIC_APM = getattr(settings, 'ELASTIC_APM', False)
+            if not ELASTIC_APM:
+                errors.append(Error('Please Add ELASTIC_APM TO your settings file',
+                                    hint="""ELASTIC_APM = {
+    "SERVICE_NAME": INSTALLATION_NAME,
+    "SERVER_URL": "<YOUR_UP:PORT>",
+    "DJANGO_TRANSACTION_NAME_FROM_ROUTE": True,
+}"""))
+
+
+            if not getattr(settings, 'INSTALLATION_NAME', False):
+                errors.append(Error('Please Add an APM installation name',
+                                    hint="INSTALLATION_NAME = env.list('DJANGO_ALLOWED_HOSTS')[0].replace('.', '-')"))
     return errors

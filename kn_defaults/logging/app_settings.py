@@ -11,3 +11,4 @@ KN_HANDLER_CLASS = lazy(
 KN_LOG_FILE_PATH = lazy(
     lambda: getattr(settings, 'KN_LOG_FILE_PATH', os.path.join(os.getcwd(), 'log.log')), str)()
 KN_LOG_BACKUP_COUNT = lazy(lambda: getattr(settings, 'KN_LOG_BACKUP_COUNT', 3), int)()
+KN_PRODUCTION = lazy(lambda: getattr(settings, 'KN_PRODUCTION', not settings.DEBUG), bool)()
