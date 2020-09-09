@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.2.5]
+#Added
+- Added Elastic APM checks   
 
 ## [0.2.4]
 #Added
