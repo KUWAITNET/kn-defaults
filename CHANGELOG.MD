@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.2.6]
+#Added
+- Changed to new Sentry Library checks   
+
+
 ## [0.2.5]
 #Added
 - Added Elastic APM checks   
