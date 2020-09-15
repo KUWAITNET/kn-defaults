@@ -22,7 +22,7 @@ def check_logging_settings(app_configs=None, **kwargs):
     return errors
 
 
-@register()
+# @register()
 def check_raven(app_configs, **kwargs):
     errors = []
     env = environ.Env()

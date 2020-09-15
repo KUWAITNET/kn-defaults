@@ -92,7 +92,7 @@ class KnLogging(MiddlewareMixin):
         Replace the values of POST parameters marked as sensitive with
         stars (*********).
         """
-        if request is None:
+        if request is None or method in ['OPTIONS']:
             return {}
         else:
             sensitive_post_parameters = getattr(request, 'sensitive_post_parameters', [])

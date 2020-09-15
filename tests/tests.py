@@ -94,6 +94,11 @@ class TestLogging(KNLoggingTestCase):
         self.assertIn('username', cm.output[0])
         self.assertNotIn('secret', cm.output[0])
 
+    def test_options_api_call(self):
+        with self.assertLogs('kn_middleware_logger', 'INFO') as cm:
+            response = self.client.options(reverse('success_func_view'), data={'username': '<username>', 'password': 'secret'})
+        self.assertEqual(response.status_code, 200)
+
     def test_error_func_view(self):
 
         with self.assertLogs('kn_middleware_logger', 'ERROR') as cm:

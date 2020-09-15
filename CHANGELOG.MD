@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.2.7]
+#Added
+- Fixed a bug with sending OPTIONS request
+
 ## [0.2.6]
 #Added
 - Changed to new Sentry Library checks   
