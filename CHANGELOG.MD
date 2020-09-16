@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.2.8]
+#Added
+- Logstash support and drop local log files. 
+
 ## [0.2.7]
 #Added
 - Fixed a bug with sending OPTIONS request
