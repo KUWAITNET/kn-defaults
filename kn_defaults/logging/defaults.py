@@ -13,8 +13,15 @@ KN_FORMATTER = "%(levelname)s:%(name)s; " \
                "post_parameters: %(post_parameters)s; outbound:%(outbound_payload)s; META: %(meta)s"
 
 FUNCTION_LOGGER_FORMATTER = '{levelname}:{message} - args={func_args} kwargs={func_kwargs} return={func_return_value} '
-PROJECT_NAME = env.str('PROJECT_NAME')
-PROJECT_ROOT = env.str('PROJECT_ROOT')
+PROJECT_NAME = env.str('DJANGO_PROJECT_NAME')
+PROJECT_ROOT = env.str('DJANGO_PROJECT_ROOT')
+LOGSTASH_HOST = env.str('DJANGO_LOGSTASH_HOST')
+LOGSTASH_PORT = env.int('DJANGO_LOGSTASH_PORT')
+
+LOGSTASH_ENV = env.str('DJANGO_LOGSTASH_ENV', 'Dev')
+LOGSTASH_EXTRA_PREFIX = env.str('DJANGO_LOGSTASH_EXTRA_PREFIX', 'dev')
+LOGSTASH_SSL_ENABLE = env.bool('DJANGO_LOGSTASH_SSL_ENABLE', False)
+
 BASE_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -24,11 +31,11 @@ BASE_LOGGING = {
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
             "message_type": "python-logstash",
             "fqdn": False,  # Fully qualified domain name. Default value: false.
-            'extra_prefix': "dev",
+            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
             "extra": {
                 "application": PROJECT_NAME,
                 "project_path": PROJECT_ROOT,
-                "environment": 'Dev',
+                "environment": LOGSTASH_ENV,
             },
         },
         'verbose_project': {
@@ -36,12 +43,12 @@ BASE_LOGGING = {
             'style': '{',
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
             "message_type": "python-logstash",
-            "fqdn": False,  # Fully qualified domain name. Default value: false.
-            'extra_prefix': "dev",
+            "fqdn": False,
+            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
             "extra": {
                 "application": PROJECT_NAME,
                 "project_path": PROJECT_ROOT,
-                "environment": 'Dev',
+                "environment": LOGSTASH_ENV,
             },
         },
         'logstash-verbose_functions': {
@@ -49,23 +56,23 @@ BASE_LOGGING = {
             'style': '{',
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
             "message_type": "python-logstash",
-            "fqdn": False,  # Fully qualified domain name. Default value: false.
-            'extra_prefix': "dev",
+            "fqdn": False,
+            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
             "extra": {
                 "application": PROJECT_NAME,
                 "project_path": PROJECT_ROOT,
-                "environment": 'Dev',
+                "environment": LOGSTASH_ENV,
             },
         },
         "logstash": {
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
             "message_type": "python-logstash",
-            "fqdn": False,  # Fully qualified domain name. Default value: false.
-            'extra_prefix': "dev",
+            "fqdn": False,
+            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
             "extra": {
                 "application": PROJECT_NAME,
                 "project_path": PROJECT_ROOT,
-                "environment": 'Dev',
+                "environment": LOGSTASH_ENV,
             },
         }
     },
@@ -78,9 +85,9 @@ BASE_LOGGING = {
             'level': 'DEBUG',
             "class": "logstash_async.handler.AsynchronousLogstashHandler",
             "transport": "logstash_async.transport.TcpTransport",
-            "host": 'kibana.mykuwaitnet.net',
-            "port": 5959,
-            "ssl_enable": False,
+            "host": LOGSTASH_HOST,
+            "port": LOGSTASH_PORT,
+            "ssl_enable": LOGSTASH_SSL_ENABLE,
             "database_path": f"{PROJECT_ROOT}/logstash.db",
             'formatter': 'logstash-verbose_middleware',
         },
@@ -88,9 +95,9 @@ BASE_LOGGING = {
             'level': 'DEBUG',
             "class": "logstash_async.handler.AsynchronousLogstashHandler",
             "transport": "logstash_async.transport.TcpTransport",
-            "host": 'kibana.mykuwaitnet.net',
-            "port": 5959,
-            "ssl_enable": False,
+            "host": LOGSTASH_HOST,
+            "port": LOGSTASH_PORT,
+            "ssl_enable": LOGSTASH_SSL_ENABLE,
             "database_path": f"{PROJECT_ROOT}/logstash.db",
             'formatter': 'logstash-verbose_project',
         },
@@ -98,9 +105,9 @@ BASE_LOGGING = {
             'level': 'DEBUG',
             "class": "logstash_async.handler.AsynchronousLogstashHandler",
             "transport": "logstash_async.transport.TcpTransport",
-            "host": 'kibana.mykuwaitnet.net',
-            "port": 5959,
-            "ssl_enable": False,
+            "host": LOGSTASH_HOST,
+            "port": LOGSTASH_PORT,
+            "ssl_enable": LOGSTASH_SSL_ENABLE,
             "database_path": f"{PROJECT_ROOT}/logstash.db",
             'formatter': 'logstash-verbose_functions',
         },
@@ -109,9 +116,9 @@ BASE_LOGGING = {
             "class": "logstash_async.handler.AsynchronousLogstashHandler",
             "formatter": "logstash",
             "transport": "logstash_async.transport.TcpTransport",
-            "host": 'kibana.mykuwaitnet.net',
-            "port": 5959,
-            "ssl_enable": False,
+            "host": LOGSTASH_HOST,
+            "port": LOGSTASH_PORT,
+            "ssl_enable": LOGSTASH_SSL_ENABLE,
             "database_path": f"{PROJECT_ROOT}/logstash.db",
         },
     },
