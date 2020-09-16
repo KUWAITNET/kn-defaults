@@ -1,7 +1,9 @@
 from functools import wraps
 import logging
 import os
-from .app_settings import KN_LOG_FILE_SIZE, KN_HANDLER_CLASS, KN_LOG_FILE_PATH, KN_LOG_BACKUP_COUNT
+import environ
+
+env = environ.Env()
 
 logger = logging.getLogger('default')
 
@@ -11,20 +13,60 @@ KN_FORMATTER = "%(levelname)s:%(name)s; " \
                "post_parameters: %(post_parameters)s; outbound:%(outbound_payload)s; META: %(meta)s"
 
 FUNCTION_LOGGER_FORMATTER = '{levelname}:{message} - args={func_args} kwargs={func_kwargs} return={func_return_value} '
+PROJECT_NAME = env.str('PROJECT_NAME')
+PROJECT_ROOT = env.str('PROJECT_ROOT')
 BASE_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose_middleware': {
             'format': KN_FORMATTER,
+            "()": "logstash_async.formatter.DjangoLogstashFormatter",
+            "message_type": "python-logstash",
+            "fqdn": False,  # Fully qualified domain name. Default value: false.
+            'extra_prefix': "dev",
+            "extra": {
+                "application": PROJECT_NAME,
+                "project_path": PROJECT_ROOT,
+                "environment": 'Dev',
+            },
         },
         'verbose_project': {
             'format': '{levelname}:{name}:{message} - LocalVars={vars} ',
             'style': '{',
+            "()": "logstash_async.formatter.DjangoLogstashFormatter",
+            "message_type": "python-logstash",
+            "fqdn": False,  # Fully qualified domain name. Default value: false.
+            'extra_prefix': "dev",
+            "extra": {
+                "application": PROJECT_NAME,
+                "project_path": PROJECT_ROOT,
+                "environment": 'Dev',
+            },
         },
-        'verbose_functions': {
+        'logstash-verbose_functions': {
             'format': FUNCTION_LOGGER_FORMATTER,
             'style': '{',
+            "()": "logstash_async.formatter.DjangoLogstashFormatter",
+            "message_type": "python-logstash",
+            "fqdn": False,  # Fully qualified domain name. Default value: false.
+            'extra_prefix': "dev",
+            "extra": {
+                "application": PROJECT_NAME,
+                "project_path": PROJECT_ROOT,
+                "environment": 'Dev',
+            },
+        },
+        "logstash": {
+            "()": "logstash_async.formatter.DjangoLogstashFormatter",
+            "message_type": "python-logstash",
+            "fqdn": False,  # Fully qualified domain name. Default value: false.
+            'extra_prefix': "dev",
+            "extra": {
+                "application": PROJECT_NAME,
+                "project_path": PROJECT_ROOT,
+                "environment": 'Dev',
+            },
         }
     },
     'handlers': {
@@ -34,27 +76,43 @@ BASE_LOGGING = {
         },
         'middleware_handler': {
             'level': 'DEBUG',
-            'class': str(KN_HANDLER_CLASS),
-            'filename': str(KN_LOG_FILE_PATH),
-            'maxBytes': KN_LOG_FILE_SIZE,
-            'backupCount': KN_LOG_BACKUP_COUNT,
-            'formatter': 'verbose_middleware',
+            "class": "logstash_async.handler.AsynchronousLogstashHandler",
+            "transport": "logstash_async.transport.TcpTransport",
+            "host": 'kibana.mykuwaitnet.net',
+            "port": 5959,
+            "ssl_enable": False,
+            "database_path": f"{PROJECT_ROOT}/logstash.db",
+            'formatter': 'logstash-verbose_middleware',
         },
         'file_log': {
             'level': 'DEBUG',
-            'class': str(KN_HANDLER_CLASS),
-            'filename': str(KN_LOG_FILE_PATH),
-            'maxBytes': KN_LOG_FILE_SIZE,
-            'backupCount': KN_LOG_BACKUP_COUNT,
-            'formatter': 'verbose_project',
+            "class": "logstash_async.handler.AsynchronousLogstashHandler",
+            "transport": "logstash_async.transport.TcpTransport",
+            "host": 'kibana.mykuwaitnet.net',
+            "port": 5959,
+            "ssl_enable": False,
+            "database_path": f"{PROJECT_ROOT}/logstash.db",
+            'formatter': 'logstash-verbose_project',
         },
         'functions_log': {
             'level': 'DEBUG',
-            'class': str(KN_HANDLER_CLASS),
-            'filename': str(KN_LOG_FILE_PATH),
-            'maxBytes': KN_LOG_FILE_SIZE,
-            'backupCount': KN_LOG_BACKUP_COUNT,
-            'formatter': 'verbose_functions',
+            "class": "logstash_async.handler.AsynchronousLogstashHandler",
+            "transport": "logstash_async.transport.TcpTransport",
+            "host": 'kibana.mykuwaitnet.net',
+            "port": 5959,
+            "ssl_enable": False,
+            "database_path": f"{PROJECT_ROOT}/logstash.db",
+            'formatter': 'logstash-verbose_functions',
+        },
+        "logstash": {
+            "level": "DEBUG",
+            "class": "logstash_async.handler.AsynchronousLogstashHandler",
+            "formatter": "logstash",
+            "transport": "logstash_async.transport.TcpTransport",
+            "host": 'kibana.mykuwaitnet.net',
+            "port": 5959,
+            "ssl_enable": False,
+            "database_path": f"{PROJECT_ROOT}/logstash.db",
         },
     },
     'loggers': {
