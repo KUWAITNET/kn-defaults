@@ -29,7 +29,21 @@ You can install via `pip install django-kn-defaults`
 
 ### LOGGING setting Adjustments:
 
-You can do that by simply integrating the kn BASE_LOGGING dict with your project LOGGING setting.
+
+First, please make sure you add these values to your env variables
+ 
+* DJANGO_PROJECT_NAME (str)
+* DJANGO_PROJECT_ROOT (str)
+* DJANGO_LOGSTASH_HOST (str)
+* DJANGO_LOGSTASH_PORT (int)
+
+Below env variables are optional 
+
+* DJANGO_LOGSTASH_ENV: defaults to Dev
+* DJANGO_LOGSTASH_EXTRA_PREFIX: Defaults to dev
+* DJANGO_LOGSTASH_SSL_ENABLE: defaults to False
+
+Then, You can integrate the kn BASE_LOGGING dict with your project LOGGING setting.
 
 ```python
 from kn_defaults.logging.defaults import BASE_LOGGING
@@ -43,8 +57,7 @@ LOGGING = BASE_LOGGING
 
 If you have a logging config already, you can merge it with BASE_LOGGING by hand.
 Check `kn_defaults.logging.defaults` for information
-All logs are stored into a log file located @ '<BASE_DIR>/log.log' 
-
+ 
 The package have 3 logging components
  
 ### 1. Middleware logging:
