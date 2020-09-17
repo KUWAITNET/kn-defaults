@@ -26,44 +26,44 @@ BASE_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'logstash-verbose_middleware': {
-            'format': KN_FORMATTER,
-            "()": "logstash_async.formatter.DjangoLogstashFormatter",
-            "message_type": "python-logstash",
-            "fqdn": False,  # Fully qualified domain name. Default value: false.
-            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
-            "extra": {
-                "application": PROJECT_NAME,
-                "project_path": PROJECT_ROOT,
-                "environment": LOGSTASH_ENV,
-            },
-        },
-        'logstash-verbose_project': {
-            'format': '{levelname}:{name}:{message} - LocalVars={vars} ',
-            'style': '{',
-            "()": "logstash_async.formatter.DjangoLogstashFormatter",
-            "message_type": "python-logstash",
-            "fqdn": False,
-            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
-            "extra": {
-                "application": PROJECT_NAME,
-                "project_path": PROJECT_ROOT,
-                "environment": LOGSTASH_ENV,
-            },
-        },
-        'logstash-verbose_functions': {
-            'format': FUNCTION_LOGGER_FORMATTER,
-            'style': '{',
-            "()": "logstash_async.formatter.DjangoLogstashFormatter",
-            "message_type": "python-logstash",
-            "fqdn": False,
-            'extra_prefix': LOGSTASH_EXTRA_PREFIX,
-            "extra": {
-                "application": PROJECT_NAME,
-                "project_path": PROJECT_ROOT,
-                "environment": LOGSTASH_ENV,
-            },
-        },
+        # 'logstash-verbose_middleware': {
+        #     # 'format': KN_FORMATTER,
+        #     "()": "logstash_async.formatter.DjangoLogstashFormatter",
+        #     "message_type": "python-logstash",
+        #     "fqdn": False,  # Fully qualified domain name. Default value: false.
+        #     'extra_prefix': LOGSTASH_EXTRA_PREFIX,
+        #     "extra": {
+        #         "application": PROJECT_NAME,
+        #         "project_path": PROJECT_ROOT,
+        #         "environment": LOGSTASH_ENV,
+        #     },
+        # },
+        # 'logstash-verbose_project': {
+        #     # 'format': '{levelname}:{name}:{message} - LocalVars={vars} ',
+        #     # 'style': '{',
+        #     "()": "logstash_async.formatter.DjangoLogstashFormatter",
+        #     "message_type": "python-logstash",
+        #     "fqdn": False,
+        #     'extra_prefix': LOGSTASH_EXTRA_PREFIX,
+        #     "extra": {
+        #         "application": PROJECT_NAME,
+        #         "project_path": PROJECT_ROOT,
+        #         "environment": LOGSTASH_ENV,
+        #     },
+        # },
+        # 'logstash-verbose_functions': {
+        #     # 'format': FUNCTION_LOGGER_FORMATTER,
+        #     # 'style': '{',
+        #     "()": "logstash_async.formatter.DjangoLogstashFormatter",
+        #     "message_type": "python-logstash",
+        #     "fqdn": False,
+        #     'extra_prefix': LOGSTASH_EXTRA_PREFIX,
+        #     "extra": {
+        #         "application": PROJECT_NAME,
+        #         "project_path": PROJECT_ROOT,
+        #         "environment": LOGSTASH_ENV,
+        #     },
+        # },
         "logstash": {
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
             "message_type": "python-logstash",
@@ -81,36 +81,36 @@ BASE_LOGGING = {
         #     'class': 'logging.StreamHandler',
         #     'formatter': 'verbose_middleware'
         # },
-        'middleware_handler': {
-            'level': 'DEBUG',
-            "class": "logstash_async.handler.AsynchronousLogstashHandler",
-            "transport": "logstash_async.transport.TcpTransport",
-            "host": LOGSTASH_HOST,
-            "port": LOGSTASH_PORT,
-            "ssl_enable": LOGSTASH_SSL_ENABLE,
-            "database_path": f"{PROJECT_ROOT}/logstash.db",
-            'formatter': 'logstash-verbose_middleware',
-        },
-        'file_log': {
-            'level': 'DEBUG',
-            "class": "logstash_async.handler.AsynchronousLogstashHandler",
-            "transport": "logstash_async.transport.TcpTransport",
-            "host": LOGSTASH_HOST,
-            "port": LOGSTASH_PORT,
-            "ssl_enable": LOGSTASH_SSL_ENABLE,
-            "database_path": f"{PROJECT_ROOT}/logstash.db",
-            'formatter': 'logstash-verbose_project',
-        },
-        'functions_log': {
-            'level': 'DEBUG',
-            "class": "logstash_async.handler.AsynchronousLogstashHandler",
-            "transport": "logstash_async.transport.TcpTransport",
-            "host": LOGSTASH_HOST,
-            "port": LOGSTASH_PORT,
-            "ssl_enable": LOGSTASH_SSL_ENABLE,
-            "database_path": f"{PROJECT_ROOT}/logstash.db",
-            'formatter': 'logstash-verbose_functions',
-        },
+        # 'middleware_handler': {
+        #     'level': 'DEBUG',
+        #     "class": "logstash_async.handler.AsynchronousLogstashHandler",
+        #     "transport": "logstash_async.transport.TcpTransport",
+        #     "host": LOGSTASH_HOST,
+        #     "port": LOGSTASH_PORT,
+        #     "ssl_enable": LOGSTASH_SSL_ENABLE,
+        #     "database_path": f"{PROJECT_ROOT}/logstash.db",
+        #     'formatter': 'logstash-verbose_middleware',
+        # },
+        # 'file_log': {
+        #     'level': 'DEBUG',
+        #     "class": "logstash_async.handler.AsynchronousLogstashHandler",
+        #     "transport": "logstash_async.transport.TcpTransport",
+        #     "host": LOGSTASH_HOST,
+        #     "port": LOGSTASH_PORT,
+        #     "ssl_enable": LOGSTASH_SSL_ENABLE,
+        #     "database_path": f"{PROJECT_ROOT}/logstash.db",
+        #     'formatter': 'logstash-verbose_project',
+        # },
+        # 'functions_log': {
+        #     'level': 'DEBUG',
+        #     "class": "logstash_async.handler.AsynchronousLogstashHandler",
+        #     "transport": "logstash_async.transport.TcpTransport",
+        #     "host": LOGSTASH_HOST,
+        #     "port": LOGSTASH_PORT,
+        #     "ssl_enable": LOGSTASH_SSL_ENABLE,
+        #     "database_path": f"{PROJECT_ROOT}/logstash.db",
+        #     'formatter': 'logstash-verbose_functions',
+        # },
         "logstash": {
             "level": "DEBUG",
             "class": "logstash_async.handler.AsynchronousLogstashHandler",
@@ -124,15 +124,15 @@ BASE_LOGGING = {
     },
     'loggers': {
         'kn_middleware_logger': {
-            'handlers': ['middleware_handler'],
+            'handlers': ['logstash'],
             'level': 'INFO',
         },
         'default': {
-            'handlers': ['file_log'],
+            'handlers': ['logstash'],
             'level': 'DEBUG',
         },
         'kn_function_logger': {
-            'handlers': ['file_log'],
+            'handlers': ['logstash'],
             'level': 'DEBUG',
         }
     }
