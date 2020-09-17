@@ -26,7 +26,7 @@ BASE_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose_middleware': {
+        'logstash-verbose_middleware': {
             'format': KN_FORMATTER,
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
             "message_type": "python-logstash",
@@ -38,7 +38,7 @@ BASE_LOGGING = {
                 "environment": LOGSTASH_ENV,
             },
         },
-        'verbose_project': {
+        'logstash-verbose_project': {
             'format': '{levelname}:{name}:{message} - LocalVars={vars} ',
             'style': '{',
             "()": "logstash_async.formatter.DjangoLogstashFormatter",
@@ -77,10 +77,10 @@ BASE_LOGGING = {
         }
     },
     'handlers': {
-        'kn_default_handler': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose_middleware'
-        },
+        # 'kn_default_handler': {
+        #     'class': 'logging.StreamHandler',
+        #     'formatter': 'verbose_middleware'
+        # },
         'middleware_handler': {
             'level': 'DEBUG',
             "class": "logstash_async.handler.AsynchronousLogstashHandler",
