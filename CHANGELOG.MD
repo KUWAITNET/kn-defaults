@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.2.9]
+#Updated
+- Fixed issue with logstash_async.handler.AsynchronousLogstashHandler complaining of being passed a format and style keywords.
+ 
 ## [0.2.8]
 #Added
 - Logstash support and drop local log files. 
