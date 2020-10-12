@@ -96,7 +96,10 @@ class KnLogging(MiddlewareMixin):
             return {}
         else:
             sensitive_post_parameters = getattr(request, 'sensitive_post_parameters', [])
-            cleansed = getattr(request, method).copy()
+            method_attr = getattr(request, method, None)
+            if not method_attr:
+                return {}
+            cleansed = method_attr.copy()
             if sensitive_post_parameters:
                 if sensitive_post_parameters == '__ALL__':
                     # Cleanse all parameters.
