@@ -22,7 +22,7 @@ class KnLogging(MiddlewareMixin):
     @staticmethod
     def shall_log(request, namespace=None, url_name=None):
         from . import app_settings
-        resolver = resolve(request.path)
+        resolver = resolve(request.path_info)
         namespace = resolver.namespace
         url_name = resolver.view_name
 
@@ -96,7 +96,11 @@ class KnLogging(MiddlewareMixin):
             return {}
         else:
             sensitive_post_parameters = getattr(request, 'sensitive_post_parameters', [])
-            method_attr = getattr(request, method, None)
+            if method == "PUT":
+                method_attr = json.loads(getattr(request, "body", b"{}"))
+            else:
+                method_attr = getattr(request, method, None)
+            
             if not method_attr:
                 return {}
             cleansed = method_attr.copy()
