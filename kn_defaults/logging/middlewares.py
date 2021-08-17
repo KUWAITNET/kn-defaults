@@ -22,7 +22,7 @@ class KnLogging(MiddlewareMixin):
     @staticmethod
     def shall_log(request, namespace=None, url_name=None):
         from . import app_settings
-        resolver = resolve(request.path)
+        resolver = resolve(request.path_info)
         namespace = resolver.namespace
         url_name = resolver.view_name
 
