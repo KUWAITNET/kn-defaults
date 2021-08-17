@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.3.1]
+#Updated
+- Fixed issue with PUT request @abahnihi 
+
 ## [0.3.0]
 #Updated
 - Fixed issue PATCH and logging middleware
