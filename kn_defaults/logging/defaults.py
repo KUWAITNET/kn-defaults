@@ -71,7 +71,7 @@ BASE_LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": f"{PROJECT_ROOT}/{PROJECT_NAME}.log",
+            "filename": f"./{PROJECT_ROOT}/{PROJECT_NAME}.log",
             "formatter": "verbose",
         },
     },
