@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are/will be documented in this file.
 
+## [0.3.2]
+#Feature
+- Made Logstash Optional @ivan  
+
 ## [0.3.1]
 #Updated
 - Fixed issue with PUT request @abahnihi 
@@ -15,7 +19,7 @@ All notable changes to this project are/will be documented in this file.
  
 ## [0.2.8]
 #Added
-- Logstash support and drop local log files. 
+- Logstash su**pport and drop local log files. 
 
 ## [0.2.7]
 #Added
