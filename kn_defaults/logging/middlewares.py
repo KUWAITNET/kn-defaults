@@ -97,27 +97,32 @@ class KnLogging(MiddlewareMixin):
         else:
             sensitive_post_parameters = getattr(request, 'sensitive_post_parameters', [])
             if method == "PUT":
-                method_attr = json.loads(getattr(request, "body", b"{}"))
+                if hasattr(request, "data"):  # if drf is used we can safely access data
+                    method_attr = request.data
+                # If it's not used we can't read body twice as it will cause an exception
+                # so return empty json instead
+                # method_attr = json.loads(getattr(request, "body", b"{}"))
+                method_attr = {}
             else:
                 method_attr = getattr(request, method, None)
-            
+
             if not method_attr:
                 return {}
             cleansed = method_attr.copy()
-            if sensitive_post_parameters:
-                if sensitive_post_parameters == '__ALL__':
-                    # Cleanse all parameters.
-                    for k in cleansed:
-                        cleansed[k] = CLEANSED_SUBSTITUTE
-                    return cleansed
-                else:
-                    # Cleanse only the specified parameters.
-                    for param in sensitive_post_parameters:
-                        if param in cleansed:
-                            cleansed[param] = CLEANSED_SUBSTITUTE
-                    return cleansed
-            else:
+            if not sensitive_post_parameters:
                 return cleansed
+
+            if sensitive_post_parameters == '__ALL__':
+                # Cleanse all parameters.
+                for k in cleansed:
+                    cleansed[k] = CLEANSED_SUBSTITUTE
+                return cleansed
+
+            # Cleanse only the specified parameters.
+            for param in sensitive_post_parameters:
+                if param in cleansed:
+                    cleansed[param] = CLEANSED_SUBSTITUTE
+            return cleansed
 
     def process_exception(self, request, exception):
         data = self.get_data(request, exception=exception)

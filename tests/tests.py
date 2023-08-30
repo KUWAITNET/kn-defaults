@@ -1,13 +1,13 @@
+from unittest._log import _CapturingHandler
+from unittest.case import _BaseTestCaseContext
+
 from django.test import TestCase, override_settings
 from django.urls import reverse
 import pdb
 import logging
 
-from unittest.case import _AssertLogsContext, _BaseTestCaseContext, _CapturingHandler
 
 from kn_defaults.logging.defaults import KN_FORMATTER, logging_decorator, FUNCTION_LOGGER_FORMATTER
-
-_AssertLogsContext.LOGGING_FORMAT = KN_FORMATTER
 
 
 class _AssertLogsContext(_BaseTestCaseContext):
