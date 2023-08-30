@@ -1,5 +1,7 @@
 import os
 
+from kn_defaults.logging.defaults import get_base_logging
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'fake-key'
@@ -50,9 +52,7 @@ KN_LOGGING_URL_PATTERNS = [
     'success_func_view',
     'error_func_view',
 ]
-from kn_defaults.logging.defaults import BASE_LOGGING
 
-BASE_LOGGING.update({})
-LOGGING = BASE_LOGGING
+LOGGING = get_base_logging(logstash=False)
 
 RAVEN_CONFIG = {'dsn': ''}
